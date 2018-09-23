@@ -25,7 +25,7 @@ SECRET_KEY = '8epoy)_7-+j2bgmbz(hdk6@e6ejk+3kan$6+v$&)@w+p21(2$x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['interactive-afcon.herokuapp.com','https://interactive-afcon.herokuapp.com']
+ALLOWED_HOSTS = ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
