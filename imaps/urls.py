@@ -19,6 +19,5 @@ from . import views
 from afcon.views import imap
 urlpatterns = [
 	url(r'^$', imap,name="imap"),
-    url(r'^map/', include("afcon.urls", namespace='mongols')),
     url(r'^admin/', admin.site.urls),
 ]

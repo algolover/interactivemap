@@ -1,7 +1,5 @@
 
 document.getElementById('resetzoom').addEventListener('click', function () {
-    // Fly to a random location by offsetting the point -74.50, 40
-    // by up to 5 degrees.
     map.flyTo({
         center: [1.73,1.4 ],
         zoom: 2.3
@@ -19,13 +17,13 @@ var map = new mapboxgl.Map({
 });
 
 map.on('load', function() { 
-  map.addLayer({ //here we are adding a layer containing the tileset we just uploaded
-    'id': 'countries',//this is the name of our layer, which we will need later
+  map.addLayer({ 
+    'id': 'countries',
     'source': {
       'type': 'vector',
-      'url': 'mapbox://divyanshubansal.agemfrr6' // <--- Add the Map ID 
+      'url': 'mapbox://divyanshubansal.agemfrr6' //  Map ID 
     },
-    'source-layer': 'ne_10m_admin_0_countries-01hhky', // <--- Add the source layer name
+    'source-layer': 'ne_10m_admin_0_countries-01hhky', // source layer name
     'type': 'fill',
     'paint': {
       'fill-color': '#00FF00', // color of tileset 
@@ -63,23 +61,17 @@ map.setFilter('countries', ['in', 'ADM0_A3_IS'].concat(nations2002)); //default 
         });
     });
 
-
+// function to display trophy icon
 var trophyicon = function(lon,lat){
-try{
-  map.removeLayer('points');
-}
-catch(err)
-{}
   try{
-  map.removeImage('trophy');
-}
-catch(err)
-{}
+    map.removeLayer('points');}
+  catch(err){}
   try{
-  map.removeSource('points');
-}
-catch(err)
-{}
+    map.removeImage('trophy');}
+  catch(err){}
+  try{
+    map.removeSource('points');}
+  catch(err){}
 
 map.loadImage('https://i.imgur.com/ascTPMO.png', function(error, image) {
         if (error) throw error;
@@ -105,11 +97,10 @@ map.loadImage('https://i.imgur.com/ascTPMO.png', function(error, image) {
                 "icon-size": 0.25
             }
         });
-    });  
-
-
+    });
 };
 
+// function to display top goals 
 var updateGoals = function(data){
   $("#goals").remove();
   $("#childgoal").append('<div class="list-group" id="goals"></div>');
@@ -120,6 +111,7 @@ var items = [];
  $('#goals').append( items.join('') );
 };
 
+// function to display name of host
 var updateHost = function(data){
   $("#host").remove();
   $("#childhost").append('<div class="list-group" id="host"></div>');
@@ -130,7 +122,7 @@ var items = [];
  $('#host').append( items.join('') );
 };
 
-
+// function to display stadiums used
 var updateStadiums = function(data){
   $("#stadiums").remove();
   $("#childStadium").append('<div class="list-group" id="stadiums"></div>');
@@ -149,15 +141,13 @@ updateStadiums(stadiums2002);
 updateGoals(goals2002);  
 updateHost(host2002);
   map.on('click', 'countries', function (mapElement) {
-  const countryCode = mapElement.features[0].properties.ADM0_A3_IS; // Grab the country code from the map properties.
+  const countryCode = mapElement.features[0].properties.ADM0_A3_IS; 
 
 
   fetch(`https://restcountries.eu/rest/v2/alpha/${countryCode}`) 
 
-  // Using tempalate tags to create the API request
-    .then((data) => data.json()) //fetch returns an object with a .json() method, which returns a promise
+    .then((data) => data.json()) 
     .then((country) => { //country contains the data from the API request
-      // Let's build our HTML in a template tag
       const html = ` 
         <img src='${country.flag}' /> 
         <ul>
@@ -165,11 +155,11 @@ updateHost(host2002);
           <li><strong>Capital:</strong> ${country.capital}</li>
           <li><strong>Population:</strong> ${country.population}</li>
         </ul>
-      `; // Now we have a good looking popup HTML segment.
-      new mapboxgl.Popup() //Create a new popup
-      .setLngLat(mapElement.lngLat) // Set where we want it to appear (where we clicked)
-      .setHTML(html) // Add the HTML we just made to the popup
-      .addTo(map); // Add the popup to the map
+      `;
+      new mapboxgl.Popup() 
+      .setLngLat(mapElement.lngLat)
+      .setHTML(html) 
+      .addTo(map); 
     });
   });
 
@@ -181,7 +171,7 @@ updateHost(host2002);
 
   document.getElementById('active-year').innerHTML = document.getElementById('slider').value;
   if(slider1.value == "2002")
-  { map.setFilter('countries', ['in', 'ADM0_A3_IS'].concat(nations2002)); // This line lets 
+  { map.setFilter('countries', ['in', 'ADM0_A3_IS'].concat(nations2002)); 
     trophyicon(-3.98,17.57);
     updateStadiums(stadiums2002);
     updateGoals(goals2002);
@@ -189,7 +179,7 @@ updateHost(host2002);
   }
   else if(slider1.value=="2004")
   {
-    map.setFilter('countries', ['in', 'ADM0_A3_IS'].concat(nations2004)); // This line lets us filter by country
+    map.setFilter('countries', ['in', 'ADM0_A3_IS'].concat(nations2004)); // filter by country
     trophyicon(10.16,36.81);
     updateStadiums(stadiums2004);
     updateGoals(goals2004);
@@ -222,7 +212,7 @@ updateHost(host2002);
   }
   else
   {
-   map.setFilter('countries', ['in', 'ADM0_A3_IS'].concat([])); // This line lets us filter by country   
+   map.setFilter('countries', ['in', 'ADM0_A3_IS'].concat([])); // filter by country   
   }
 });
 
@@ -239,9 +229,9 @@ map.on('zoom', function(){
 
 
 // hover function for youtube video(ytvid)
-$(document).on('mouseenter','#stadiumhover', function (event) {
-    $("#tooltiptextid").show();
-    console.log("okay");
-}).on('mouseleave','#stadiumhover',  function(){
-    $("#tooltiptextid").hide();
-});
+// $(document).on('mouseenter','#stadiumhover', function (event) {
+//     $("#tooltiptextid").show();
+//     console.log("okay");
+// }).on('mouseleave','#stadiumhover',  function(){
+//     $("#tooltiptextid").hide();
+// });
