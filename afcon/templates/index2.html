@@ -1,0 +1,131 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+
+ <html>
+<head>
+  <meta charset='utf-8' />
+  <title>AFCON Data Visualization</title>
+  <!-- adding mapbox css and js -->
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css' rel='stylesheet' />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  
+  <!-- Custom CSS styling -->
+  <link rel='stylesheet' href='static/main.css' />
+
+</head>
+
+
+<body>
+  <div class="container-fluid" style="padding:0px;margin:0px">
+
+<!-- Navigation Bar is Hidden to Improve aesthetics of the Project -->
+<!-- <nav class="navbar navbar-default" style="background-color:black;margin-bottom:0px ;border-radius:0px;min-height:0px">
+   <div class="container">
+
+      <p class="text-center" style="color:#FFF;font-size:1.5em;margin-top:10px;margin-bottom:10px">
+        Interactive Visualization of AFCON Data
+      </p>
+  </div>
+</nav>
+-->
+  
+
+  <!-- The Time Slider Panel -->
+    <div class='session panel panel-default' id='sliderbar' style="z-index:2;position: absolute; top:20px; left:10px;font-family:'Montserrat', sans-serif;">
+      <div class="panel-body" style="border-radius:0px;color:purple">
+        <h5><b>AFCON Year -&nbsp</b> <label id='active-year'>2002</label></h5>
+        <input id='slider' type='range' min='2002' max='2010' step='2' value='2002' />
+        <p><em class="text-muted text-italic"> slide to see data for next tournament</em></p>
+        <button class="btn btn-danger" id="resetzoom">Reset Zoom</button> <!-- Conditional Button-->
+      </div>
+    </div>
+
+<!-- MAPBOX MAP -->
+<div class="row" style="padding:0px;margin:0px;font-family:'Montserrat', sans-serif;">
+  <div class="col-md-9" id='map' style="width:75%;padding-left:0px">
+  </div>
+
+<!-- Sidebar containing details of Stadiums, Top Goals and User added Facts -->
+  <div class="col-md-3" style="padding-left:0px;padding-right:0px;font-family:'Montserrat', sans-serif;" >
+    <div class="panel panel-default" style="overflow:auto;border-top:0px;margin-bottom:0px;height:630px;">
+    
+      <div class="panel-heading" style="background-color:green; border-radius:0px;font-size:1.3em;">AFCON Tournament Details</div>
+
+      <div class="panel-body p-0" style="padding:0px">
+        <div class="just-padding" style="padding:0px">
+        <div class="list-group list-group-root well" style="padding-left:0px;border-radius:0px;">
+
+
+          <!-- Host of the Edition -->
+           <p class="list-group-item" style="background-color:#007bff;color:white;font-size:1.2em">Host Country</p>
+          <div id="childhost">
+          <div class="list-group" id="host">
+            </div>
+          </div>
+
+          
+          <!-- Stadium Section -->
+          <p  class="list-group-item" id="superStadium" style="background-color:#007bff;color:white;font-size:1.2em">Stadiums</p>
+            <div id="childStadium">
+          <div class="list-group" id="stadiums">
+            </div>
+          </div>
+
+
+
+
+
+          <!-- Facts by User Form Section -->
+           <p class="list-group-item" style="background-color:#007bff;color:white;font-size:1.2em">Add Interesting Facts</p>
+
+          <div class="list-group" id="factsform">
+
+            <form class="form-group"method='POST' action='' enctype='multipart/form-data' style="padding:10px">{% csrf_token %}
+            {{ form.as_p }}
+            <input type='submit' class='btn btn-warning' style="margin-left:35px" value='Submit' />
+            </form>
+
+          </div>
+
+          <!-- Facts by User -->
+           <p class="list-group-item" style="background-color:#007bff;color:white;font-size:1.2em">Facts by Users</p>
+          
+          <div class="list-group" id="facts">
+
+
+            {% for item in queryset_list %}
+            <p class="list-group-item" title="Fact added by users" id="userfact" style="color:#000">{{item}}</p>
+            {%endfor%}
+            </div>
+
+
+          <!-- Top Goals Section -->
+           <p class="list-group-item" style="background-color:#007bff;color:white;font-size:1.2em">Top Goals</p>
+          <div id="childgoal">
+          <div class="list-group" id="goals">
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
+
+
+
+</div>
+
+</div>
+<!-- All the javascript -->
+<script src='https://api.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.js'></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<script src="static/data.js" ></script>
+<script src="static/main.js" ></script>
+
+</body> 
+</html>
+
